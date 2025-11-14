@@ -20,7 +20,7 @@
 
 use crate::common::{log10_pow2, log10_pow5, pow5bits};
 #[cfg(not(feature = "small"))]
-pub use crate::d2s_full_table::{DOUBLE_POW5_INV_SPLIT, DOUBLE_POW5_SPLIT};
+pub(crate) use crate::d2s_full_table::const_arrays::{DOUBLE_POW5_INV_SPLIT, DOUBLE_POW5_SPLIT};
 use crate::d2s_intrinsics::{
     div10, div100, div5, mul_shift_all_64, multiple_of_power_of_2, multiple_of_power_of_5,
 };
@@ -35,7 +35,7 @@ pub const DOUBLE_POW5_INV_BITCOUNT: i32 = 125;
 pub const DOUBLE_POW5_BITCOUNT: i32 = 125;
 
 #[cfg_attr(feature = "no-panic", inline)]
-pub fn decimal_length17(v: u64) -> u32 {
+pub const fn decimal_length17(v: u64) -> u32 {
     // This is slightly faster than a loop.
     // The average output length is 16.38 digits, so we check high-to-low.
     // Function precondition: v is not an 18, 19, or 20-digit number.
@@ -88,7 +88,7 @@ pub struct FloatingDecimal64 {
 }
 
 #[cfg_attr(feature = "no-panic", inline)]
-pub fn d2d(ieee_mantissa: u64, ieee_exponent: u32) -> FloatingDecimal64 {
+pub const fn d2d(ieee_mantissa: u64, ieee_exponent: u32) -> FloatingDecimal64 {
     let (e2, m2) = if ieee_exponent == 0 {
         (
             // We subtract 2 so that the bounds computation has 2 additional bits.

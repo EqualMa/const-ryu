@@ -694,3 +694,14 @@ pub static DOUBLE_POW5_SPLIT: [(u64, u64); DOUBLE_POW5_TABLE_SIZE] = [
     (3278889188817135834, 1424047269444608885),
     (8710297504448807696, 1780059086805761106),
 ];
+
+pub(super) mod const_arrays {
+    use crate::common::const_array::ConstArray;
+
+    pub(crate) const DOUBLE_POW5_INV_SPLIT: ConstArray<
+        [(u64, u64); super::DOUBLE_POW5_INV_SPLIT.len()],
+    > = ConstArray(super::DOUBLE_POW5_INV_SPLIT);
+
+    pub(crate) const DOUBLE_POW5_SPLIT: ConstArray<[(u64, u64); super::DOUBLE_POW5_SPLIT.len()]> =
+        ConstArray(super::DOUBLE_POW5_SPLIT);
+}

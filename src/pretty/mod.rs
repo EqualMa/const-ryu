@@ -10,6 +10,17 @@ use core::ptr;
 #[cfg(feature = "no-panic")]
 use no_panic::no_panic;
 
+macro_rules! const_for_in_range_full {
+    (for $i:ident in $range_start:tt..$range_end:tt $body:block) => {{
+        let mut $i = $range_start;
+
+        while $i < $range_end {
+            $body
+            $i += 1;
+        }
+    }};
+}
+
 /// Print f64 to the given buffer and return number of bytes written.
 ///
 /// At most 24 bytes will be written.
@@ -49,7 +60,7 @@ use no_panic::no_panic;
 /// ```
 #[must_use]
 #[cfg_attr(feature = "no-panic", no_panic)]
-pub unsafe fn format64(f: f64, result: *mut u8) -> usize {
+pub const unsafe fn format64(f: f64, result: *mut u8) -> usize {
     let bits = f.to_bits();
     let sign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
     let ieee_mantissa = bits & ((1u64 << DOUBLE_MANTISSA_BITS) - 1);
@@ -77,9 +88,13 @@ pub unsafe fn format64(f: f64, result: *mut u8) -> usize {
     if 0 <= k && kk <= 16 {
         // 1234e7 -> 12340000000.0
         write_mantissa_long(v.mantissa, result.offset(index + length));
+
+        const_for_in_range_full! {
         for i in length..kk {
             *result.offset(index + i) = b'0';
         }
+        }
+
         *result.offset(index + kk) = b'.';
         *result.offset(index + kk + 1) = b'0';
         index as usize + kk as usize + 2
@@ -94,9 +109,13 @@ pub unsafe fn format64(f: f64, result: *mut u8) -> usize {
         *result.offset(index) = b'0';
         *result.offset(index + 1) = b'.';
         let offset = 2 - kk;
+
+        const_for_in_range_full! {
         for i in 2..offset {
             *result.offset(index + i) = b'0';
         }
+        }
+
         write_mantissa_long(v.mantissa, result.offset(index + length + offset));
         index as usize + length as usize + offset as usize
     } else if length == 1 {
@@ -156,7 +175,7 @@ pub unsafe fn format64(f: f64, result: *mut u8) -> usize {
 /// ```
 #[must_use]
 #[cfg_attr(feature = "no-panic", no_panic)]
-pub unsafe fn format32(f: f32, result: *mut u8) -> usize {
+pub const unsafe fn format32(f: f32, result: *mut u8) -> usize {
     let bits = f.to_bits();
     let sign = ((bits >> (FLOAT_MANTISSA_BITS + FLOAT_EXPONENT_BITS)) & 1) != 0;
     let ieee_mantissa = bits & ((1u32 << FLOAT_MANTISSA_BITS) - 1);
@@ -183,9 +202,13 @@ pub unsafe fn format32(f: f32, result: *mut u8) -> usize {
     if 0 <= k && kk <= 13 {
         // 1234e7 -> 12340000000.0
         write_mantissa(v.mantissa, result.offset(index + length));
+
+        const_for_in_range_full! {
         for i in length..kk {
             *result.offset(index + i) = b'0';
         }
+        }
+
         *result.offset(index + kk) = b'.';
         *result.offset(index + kk + 1) = b'0';
         index as usize + kk as usize + 2
@@ -200,9 +223,13 @@ pub unsafe fn format32(f: f32, result: *mut u8) -> usize {
         *result.offset(index) = b'0';
         *result.offset(index + 1) = b'.';
         let offset = 2 - kk;
+
+        const_for_in_range_full! {
         for i in 2..offset {
             *result.offset(index + i) = b'0';
         }
+        }
+
         write_mantissa(v.mantissa, result.offset(index + length + offset));
         index as usize + length as usize + offset as usize
     } else if length == 1 {

@@ -95,9 +95,27 @@ pub static DOUBLE_POW5_TABLE: [u64; 26] = [
     298023223876953125,
 ];
 
+mod const_arrays {
+    use crate::common::const_array::ConstArray;
+
+    pub(super) const DOUBLE_POW5_INV_SPLIT2: ConstArray<
+        [(u64, u64); super::DOUBLE_POW5_INV_SPLIT2.len()],
+    > = ConstArray(super::DOUBLE_POW5_INV_SPLIT2);
+    pub(super) const POW5_INV_OFFSETS: ConstArray<[u32; super::POW5_INV_OFFSETS.len()]> =
+        ConstArray(super::POW5_INV_OFFSETS);
+    pub(super) const DOUBLE_POW5_SPLIT2: ConstArray<[(u64, u64); super::DOUBLE_POW5_SPLIT2.len()]> =
+        ConstArray(super::DOUBLE_POW5_SPLIT2);
+    pub(super) const POW5_OFFSETS: ConstArray<[u32; super::POW5_OFFSETS.len()]> =
+        ConstArray(super::POW5_OFFSETS);
+    pub(super) const DOUBLE_POW5_TABLE: ConstArray<[u64; super::DOUBLE_POW5_TABLE.len()]> =
+        ConstArray(super::DOUBLE_POW5_TABLE);
+}
+
 // Computes 5^i in the form required by Ryū.
 #[cfg_attr(feature = "no-panic", inline)]
-pub unsafe fn compute_pow5(i: u32) -> (u64, u64) {
+pub const unsafe fn compute_pow5(i: u32) -> (u64, u64) {
+    use self::const_arrays::{DOUBLE_POW5_SPLIT2, DOUBLE_POW5_TABLE, POW5_OFFSETS};
+
     let base = i / DOUBLE_POW5_TABLE.len() as u32;
     let base2 = base * DOUBLE_POW5_TABLE.len() as u32;
     let offset = i - base2;
@@ -120,7 +138,9 @@ pub unsafe fn compute_pow5(i: u32) -> (u64, u64) {
 
 // Computes 5^-i in the form required by Ryū.
 #[cfg_attr(feature = "no-panic", inline)]
-pub unsafe fn compute_inv_pow5(i: u32) -> (u64, u64) {
+pub const unsafe fn compute_inv_pow5(i: u32) -> (u64, u64) {
+    use self::const_arrays::{DOUBLE_POW5_INV_SPLIT2, DOUBLE_POW5_TABLE, POW5_INV_OFFSETS};
+
     let base = (i + DOUBLE_POW5_TABLE.len() as u32 - 1) / DOUBLE_POW5_TABLE.len() as u32;
     let base2 = base * DOUBLE_POW5_TABLE.len() as u32;
     let offset = base2 - i;
