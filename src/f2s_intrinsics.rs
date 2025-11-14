@@ -55,6 +55,7 @@ pub const fn multiple_of_power_of_2_32(value: u32, p: u32) -> bool {
 // It seems to be slightly faster to avoid uint128_t here, although the
 // generated code for uint128_t looks slightly nicer.
 #[cfg_attr(feature = "no-panic", inline)]
+#[expect(clippy::legacy_numeric_constants)]
 const fn mul_shift_32(m: u32, factor: u64, shift: i32) -> u32 {
     debug_assert!(shift > 32);
 

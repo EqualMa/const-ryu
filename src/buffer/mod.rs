@@ -70,6 +70,7 @@ impl Buffer {
     #[inline]
     #[cfg_attr(feature = "no-panic", no_panic)]
     pub fn format_finite<F: Float>(&mut self, f: F) -> &str {
+        #[expect(clippy::ptr_as_ptr)]
         unsafe {
             let n = f.write_to_ryu_buffer(self.bytes.as_mut_ptr() as *mut u8);
             debug_assert!(n <= self.bytes.len());

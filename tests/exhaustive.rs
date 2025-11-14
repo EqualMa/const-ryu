@@ -8,6 +8,7 @@ use std::thread;
 
 #[test]
 #[cfg_attr(not(exhaustive), ignore = "requires cfg(exhaustive)")]
+#[expect(clippy::legacy_numeric_constants)]
 fn test_exhaustive() {
     const BATCH_SIZE: u32 = 1_000_000;
     let counter = Arc::new(AtomicUsize::new(0));
@@ -37,6 +38,7 @@ fn test_exhaustive() {
                 if !f.is_finite() {
                     continue;
                 }
+                #[expect(clippy::borrow_as_ptr)]
                 let n = unsafe { ryu::raw::format32(f, &mut bytes[0]) };
                 assert_eq!(Ok(Ok(f)), str::from_utf8(&bytes[..n]).map(str::parse));
                 assert_eq!(Ok(f), buffer.format_finite(f).parse());

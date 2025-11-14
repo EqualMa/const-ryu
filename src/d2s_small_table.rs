@@ -141,6 +141,7 @@ pub const unsafe fn compute_pow5(i: u32) -> (u64, u64) {
 pub const unsafe fn compute_inv_pow5(i: u32) -> (u64, u64) {
     use self::const_arrays::{DOUBLE_POW5_INV_SPLIT2, DOUBLE_POW5_TABLE, POW5_INV_OFFSETS};
 
+    #[expect(clippy::manual_div_ceil)] // keep the original code
     let base = (i + DOUBLE_POW5_TABLE.len() as u32 - 1) / DOUBLE_POW5_TABLE.len() as u32;
     let base2 = base * DOUBLE_POW5_TABLE.len() as u32;
     let offset = base2 - i;

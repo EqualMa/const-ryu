@@ -46,6 +46,7 @@ use d2s_small_table::{compute_inv_pow5, compute_pow5};
 
 #[test]
 fn test_compute_pow5() {
+    #[expect(clippy::uninlined_format_args)]
     for (i, entry) in DOUBLE_POW5_SPLIT.iter().enumerate() {
         assert_eq!(*entry, unsafe { compute_pow5(i as u32) }, "entry {}", i);
     }
@@ -53,6 +54,7 @@ fn test_compute_pow5() {
 
 #[test]
 fn test_compute_inv_pow5() {
+    #[expect(clippy::uninlined_format_args)]
     for (i, entry) in DOUBLE_POW5_INV_SPLIT[..292].iter().enumerate() {
         assert_eq!(*entry, unsafe { compute_inv_pow5(i as u32) }, "entry {}", i);
     }
