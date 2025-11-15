@@ -52,7 +52,7 @@ macro_rules! const_for_in_range_full {
 ///
 /// unsafe {
 ///     let mut buffer = [MaybeUninit::<u8>::uninit(); 24];
-///     let len = ryu::raw::format64(f, buffer.as_mut_ptr() as *mut u8);
+///     let len = const_ryu::raw::format64(f, buffer.as_mut_ptr() as *mut u8);
 ///     let slice = slice::from_raw_parts(buffer.as_ptr() as *const u8, len);
 ///     let print = str::from_utf8_unchecked(slice);
 ///     assert_eq!(print, "1.234");
@@ -167,7 +167,7 @@ pub const unsafe fn format64(f: f64, result: *mut u8) -> usize {
 ///
 /// unsafe {
 ///     let mut buffer = [MaybeUninit::<u8>::uninit(); 16];
-///     let len = ryu::raw::format32(f, buffer.as_mut_ptr() as *mut u8);
+///     let len = const_ryu::raw::format32(f, buffer.as_mut_ptr() as *mut u8);
 ///     let slice = slice::from_raw_parts(buffer.as_ptr() as *const u8, len);
 ///     let print = str::from_utf8_unchecked(slice);
 ///     assert_eq!(print, "1.234");

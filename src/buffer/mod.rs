@@ -13,7 +13,7 @@ const NEG_INFINITY: &str = "-inf";
 /// ## Example
 ///
 /// ```
-/// let mut buffer = ryu::Buffer::new();
+/// let mut buffer = const_ryu::Buffer::new();
 /// let printed = buffer.format_finite(1.234);
 /// assert_eq!(printed, "1.234");
 /// ```
@@ -99,7 +99,7 @@ impl Default for Buffer {
 }
 
 /// A floating point number, f32 or f64, that can be written into a
-/// [`ryu::Buffer`][Buffer].
+/// [`const_ryu::Buffer`][Buffer].
 ///
 /// This trait is sealed and cannot be implemented for types outside of the
 /// `ryu` crate.
@@ -221,15 +221,15 @@ impl Sealed for f64 {
 ///
 /// ```
 /// # const _: () = {macro_rules! assert_eq {($a:expr,$b:expr)=>{{mod __b{pub const VAL:&[u8]=$b.as_bytes();}assert!(matches!($a.as_bytes(), __b::VAL))}}}
-/// let mut buffer = ryu::Buffer::new();
+/// let mut buffer = const_ryu::Buffer::new();
 ///
-/// let printed = ryu::Format(&mut buffer, 1.234f32).call_once();
+/// let printed = const_ryu::Format(&mut buffer, 1.234f32).call_once();
 /// assert_eq!(printed, "1.234");
 ///
-/// let printed = ryu::Format(&mut buffer, 1.234f64).call_once();
+/// let printed = const_ryu::Format(&mut buffer, 1.234f64).call_once();
 /// assert_eq!(printed, "1.234");
 ///
-/// let printed = ryu::Format(&mut buffer, f64::NAN).call_once();
+/// let printed = const_ryu::Format(&mut buffer, f64::NAN).call_once();
 /// assert_eq!(printed, "NaN");
 /// # };
 /// ```
@@ -241,12 +241,12 @@ pub struct Format<'a, T>(pub &'a mut Buffer, pub T);
 ///
 /// ```
 /// # const _: () = {macro_rules! assert_eq {($a:expr,$b:expr)=>{{mod __b{pub const VAL:&[u8]=$b.as_bytes();}assert!(matches!($a.as_bytes(), __b::VAL))}}}
-/// let mut buffer = ryu::Buffer::new();
+/// let mut buffer = const_ryu::Buffer::new();
 ///
-/// let printed = ryu::FormatFinite(&mut buffer, 1.234f32).call_once();
+/// let printed = const_ryu::FormatFinite(&mut buffer, 1.234f32).call_once();
 /// assert_eq!(printed, "1.234");
 ///
-/// let printed = ryu::FormatFinite(&mut buffer, 1.234f64).call_once();
+/// let printed = const_ryu::FormatFinite(&mut buffer, 1.234f64).call_once();
 /// assert_eq!(printed, "1.234");
 /// # };
 /// ```

@@ -1,6 +1,8 @@
 #![cfg_attr(not(check_cfg), allow(unexpected_cfgs))]
 #![allow(clippy::cast_possible_truncation)]
 
+extern crate const_ryu as ryu;
+
 use std::str;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;

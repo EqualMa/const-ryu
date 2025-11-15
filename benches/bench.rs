@@ -9,6 +9,8 @@
 
 extern crate test;
 
+extern crate const_ryu as ryu;
+
 use std::io::Write;
 use std::{f32, f64};
 use test::{black_box, Bencher};

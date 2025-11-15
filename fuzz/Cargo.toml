@@ -11,7 +11,7 @@ cargo-fuzz = true
 [dependencies]
 arbitrary = { version = "1", features = ["derive"] }
 libfuzzer-sys = "0.4"
-ryu = { path = ".." }
+ryu = { path = "..", package = "const-ryu" }
 
 [features]
 small = ["ryu/small"]

@@ -26,6 +26,8 @@
     clippy::unseparated_literal_suffix
 )]
 
+extern crate const_ryu as ryu;
+
 #[macro_use]
 mod macros;
 
