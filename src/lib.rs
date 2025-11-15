@@ -116,7 +116,7 @@ mod f2s;
 mod f2s_intrinsics;
 mod pretty;
 
-pub use crate::buffer::{Buffer, Float};
+pub use crate::buffer::{Buffer, Float, Format, FormatFinite};
 
 /// Unsafe functions that mirror the API of the C implementation of Ryū.
 pub mod raw {
