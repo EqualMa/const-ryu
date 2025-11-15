@@ -1,15 +1,19 @@
 [package]
 name = "const-ryu"
 version = "1.0.20"
-authors = ["David Tolnay <dtolnay@gmail.com>"]
+authors = [
+    # 
+    "David Tolnay <dtolnay@gmail.com>",
+    "Equal Ma <equalma@outlook.com>",
+]
 categories = ["value-formatting", "no-std", "no-std::no-alloc"]
 description = "Fast floating point to string conversion"
-documentation = "https://docs.rs/ryu"
+documentation = "https://docs.rs/const-ryu"
 edition = "2018"
 exclude = ["build.rs", "performance.png", "chart/**"]
 keywords = ["float"]
 license = "Apache-2.0 OR BSL-1.0"
-repository = "https://github.com/dtolnay/ryu"
+repository = "https://github.com/EqualMa/const-ryu"
 rust-version = "1.83"
 
 [features]
